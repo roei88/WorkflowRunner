@@ -1,0 +1,29 @@
+# This file is the main config file for all Lambda functions of salesforce sync bars project
+
+service: infra
+
+provider:
+  name: aws
+  region: eu-west-1
+  cfLogs: true
+  vpc:
+    securityGroupIds:
+      - ${file(./${opt:stage}_env.yml):securityGroupIds}
+    subnetIds:
+      - ${file(./${opt:stage}_env.yml):subnetId}
+
+package:
+  artifact: lambda_code.zip
+
+functions:
+  email-sender:
+    runtime: python3.7
+    memorySize: 2048
+    handler: app-lambda.lambda_handler
+    role: ${file(./${opt:dev}_env.yml):role}
+    environment:
+      ENV: ${file(./${opt:dev}_env.yml):env}
+      REGION_NAME: ${file(./${opt:dev}_env.yml):region}
+    timeout: 900
+    tags:
+      lambdaFunctionName: email-sender-lambda

@@ -1,0 +1,5 @@
+role: arn:aws:iam::123456789:role/lambda_basic_execution
+securityGroupIds: ab-cde123
+subnetId1: subnet-ab-cde123
+env: dev
+region: eu-west-1
